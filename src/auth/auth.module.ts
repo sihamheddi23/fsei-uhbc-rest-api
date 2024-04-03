@@ -4,8 +4,11 @@ import { AuthController } from './auth.controller';
 import {  PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { SequelizeModule } from '@nestjs/sequelize';
 
-import { JwtAuthGuard } from './auth.guards';
+import { JwtAuthGuard } from './jwt-auth.guards';
+import { User } from './entities/auth.entity';
+import { SessionToken } from './entities/session.entity';
 
 @Module({
   imports: [
@@ -16,11 +19,12 @@ import { JwtAuthGuard } from './auth.guards';
         return {
           secret: config.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: 60 * 60  * 24 * 1000 , // 1 day,
+            expiresIn: 6 , // 1 day,
           },
         };
       },
     }),
+    SequelizeModule.forFeature([User, SessionToken]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtAuthGuard],

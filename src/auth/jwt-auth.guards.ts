@@ -24,18 +24,24 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
       });
-
-      const user = await this.authService.findOne(payload.id);
-      if (!user) {
-        throw new UnauthorizedException();
-        }
-        
-      request['user'] = payload.id;
+      console.log(payload.id);
+      
+      //  if(payload.exp < Date.now() / 1000) {
+      //    await this.authService.unvalidateSession(payload.id);
+      //    throw new UnauthorizedException();
+      //  }
+      //  else {
+      //   const user = await this.authService.findUserBySessionId(payload.id);
+      //   if (!user) {
+      //     throw new UnauthorizedException();
+      //   }
+      //   request['sid'] = payload.id;
+      // }
     } catch {
-      throw new UnauthorizedException();
+     
     }
     return true;
   }

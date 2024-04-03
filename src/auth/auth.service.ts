@@ -1,69 +1,88 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { LoginInputDto } from './dto/loginInput.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { User } from './entities/auth.entity';
+import { Op } from 'sequelize';
+import { comparePassword, encryptPassword } from 'src/utils/hashing';
+import { CreateUserDto } from './dto/create-user.dto';
+import { SessionToken } from './entities/session.entity';
 
 @Injectable()
 export class AuthService {
-  private users = [
-    {
-      _id: 1,
-      username: 'John',
-      pass: '123456',
-    },
-    {
-      _id: 2,
-      username: 'Jane',
-      pass: '123456',
-    },
-    {
-      _id: 3,
-      username: 'Jack',
-      pass: '123456',
-    },
-    {
-      _id: 4,
-      username: 'Jill',
-      pass: '123456',
-    },
-    {
-      _id: 5,
-      username: 'Jim',
-      pass: '123456',
-    },
-  ];
+  constructor(
+    @InjectModel(User)
+    private readonly userModel: typeof User,
+    @InjectModel(SessionToken)
+    private readonly sessionModel: typeof SessionToken,
+    private jwtService: JwtService,
+  ) { }
 
-  constructor(private jwtService: JwtService) {}
-  async validate(payload) {
-    const { id } = payload;
-
-    const user = await this.findOne(id);
-    console.log(user);
-
+  async unvalidateSession(id: string): Promise<void> {
+    await this.sessionModel.update({ isValid: false }, { where: { _id: id } });
+  }
+  
+  async findOneUserByID(id: number): Promise<User> {
+    const user = await this.userModel.findOne({ where: { _id: id } });
     if (!user) {
-      throw new UnauthorizedException('Login first to access this endpoint.');
+      throw new NotFoundException('user not found');
     }
 
     return user;
   }
-  findOne(id: number) {
-    return this.users.find((user) => user._id === id);
+
+  async findUserBySessionId(id: string): Promise<User> {
+    const session = await this.sessionModel.findOne({ where: { _id: id } });
+    if (!session || !session.isValid) {
+      throw new UnauthorizedException('unauthorized');
+    }
+
+    return this.findOneUserByID(session.userID);
   }
 
-  async login(loginDto: {
-    username: string;
-    password: string;
-  }): Promise<{ token: string }> {
-    const { username, password } = loginDto;
+  async findOneByUsernameOrEmail(input: string | {username: string, email: string}): Promise<User> {
+    let query;
+    if (typeof input === 'string') {
+       query = [{ username: input }, { email: input }] 
+    }
+    else {
+      query =  [{ username: input.username }, { email: input.email }] 
+    }
 
-    const user = this.users.find(
-      (user) => user.username === username && user.pass === password,
-    );
+    return await this.userModel.findOne({
+      where: { [Op.or]: query },
+    });
+  }
 
+  async login(loginDto: LoginInputDto): Promise<{ token: string }> {
+    const { usernameOrEmail, password } = loginDto;
+    const user = await this.findOneByUsernameOrEmail(usernameOrEmail);
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
+    
+    const isMatchPassowrd = await comparePassword(password,user.password);
+    if (!isMatchPassowrd) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
 
-    const token = this.jwtService.sign({ id: user._id });
+    const session = await this.sessionModel.create({ userID: user._id, isValid: true, createdAt: new Date() });
+
+    const token = this.jwtService.sign({ id: session._id });
 
     return { token };
+  }
+
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { username, email, password } = createUserDto;
+    const user = await this.findOneByUsernameOrEmail({username, email});
+    if (user) {
+      throw new UnauthorizedException('User already exists');
+    }
+
+    const encryptedPassword = await encryptPassword(password);
+    const newUser = await this.userModel.create({ ...createUserDto, password: encryptedPassword });
+    
+    return newUser;
   }
 }

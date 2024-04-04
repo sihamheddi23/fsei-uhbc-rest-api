@@ -14,5 +14,8 @@ export class SessionToken extends Model<SessionToken> {
     isValid: boolean;
 
     @Column
+    userAgent: string;
+
+    @Column
     createdAt: Date;
 }

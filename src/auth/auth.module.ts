@@ -19,7 +19,7 @@ import { SessionToken } from './entities/session.entity';
         return {
           secret: config.get<string>('JWT_SECRET'),
           signOptions: {
-            expiresIn: 6 , // 1 day,
+            expiresIn: parseInt(config.get<string>('JWT_EXPIRES')) , // 1 day,
           },
         };
       },

@@ -12,8 +12,8 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("/login")
-  login(@Body(ValidationPipe) loginInputDto: LoginInputDto) {
-    return this.authService.login(loginInputDto);
+  login(@Request() req, @Body(ValidationPipe) loginInputDto: LoginInputDto) {
+    return this.authService.login(loginInputDto,req.headers['user-agent']);
   }
   
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)

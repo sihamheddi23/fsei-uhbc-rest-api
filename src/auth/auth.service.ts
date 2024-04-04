@@ -54,7 +54,7 @@ export class AuthService {
     });
   }
 
-  async login(loginDto: LoginInputDto): Promise<{ token: string }> {
+  async login(loginDto: LoginInputDto,userAgent:string): Promise<{ token: string }> {
     const { usernameOrEmail, password } = loginDto;
     const user = await this.findOneByUsernameOrEmail(usernameOrEmail);
     if (!user) {
@@ -66,9 +66,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const session = await this.sessionModel.create({ userID: user._id, isValid: true, createdAt: new Date() });
+    const session = await this.sessionModel.create({ userID: user._id, isValid: true, userAgent, createdAt: new Date() });
 
-    const token = this.jwtService.sign({ id: session._id });
+    const token = this.jwtService.sign({ id: session._id, createdAt: session.createdAt });
 
     return { token };
   }

@@ -9,6 +9,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { JwtAuthGuard } from './jwt-auth.guards';
 import { User } from './entities/auth.entity';
 import { SessionToken } from './entities/session.entity';
+import { RolesGuard } from './role.guard';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { SessionToken } from './entities/session.entity';
     SequelizeModule.forFeature([User, SessionToken]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard],
-  exports: [JwtAuthGuard, PassportModule],
+  providers: [AuthService, JwtAuthGuard, RolesGuard],
+  exports: [JwtAuthGuard, RolesGuard, AuthService, PassportModule],
 })
 export class AuthModule {}

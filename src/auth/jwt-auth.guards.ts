@@ -7,7 +7,6 @@ import {
 import { AuthService } from './auth.service';
 import { ExtractJwt } from 'passport-jwt';
 import * as jwt from 'jsonwebtoken'
-import { error } from 'console';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -45,7 +44,8 @@ export class JwtAuthGuard implements CanActivate {
       if(!user){
         throw new UnauthorizedException("unauthorized acces you need to login");
       }
-      request['sid'] = id;
+      user["password"] = null
+      request['user'] = user;
       return response
     } catch (error) {
       const err = {...error}

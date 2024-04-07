@@ -20,9 +20,9 @@ export class SubMajorController {
   
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get()
-  findAll() {
-    return this.subMajorService.findAll();
+  @Get(":departement-id")
+  findAll(  @Param("departement-id") departement_id: number) {
+    return this.subMajorService.findAll(departement_id);
   }
    
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
@@ -31,14 +31,7 @@ export class SubMajorController {
   findOne(@Param('id') id: string) {
     return this.subMajorService.findOne(+id);
   }
-  
-  @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubMajorDto: UpdateSubMajorDto) {
-    return this.subMajorService.update(+id, updateSubMajorDto);
-  }
-
+ 
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')

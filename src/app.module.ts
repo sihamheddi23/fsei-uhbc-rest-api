@@ -6,9 +6,9 @@ import { DepartementModule } from './departement/departement.module';
 import { TeacherModule } from './teacher/teacher.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { CourseModule } from './course/course.module';
-import { ModuleModule } from './module/module.module';
 import { AdsModule } from './ads/ads.module';
 import { SubMajorModule } from './sub-major/sub-major.module';
+import { SubjectModule } from './subject/subject.module';
 
 @Module({
   imports: [AuthModule, ConfigModule.forRoot({
@@ -29,8 +29,8 @@ import { SubMajorModule } from './sub-major/sub-major.module';
     TeacherModule,
     ScheduleModule,
     CourseModule,
-    ModuleModule,
     AdsModule,
-    SubMajorModule],
+    SubMajorModule,
+    SubjectModule],
 })
 export class AppModule {}

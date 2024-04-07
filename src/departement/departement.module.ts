@@ -10,5 +10,6 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [AuthModule, SequelizeModule.forFeature([Departement]), JwtModule],
   controllers: [DepartementController],
   providers: [DepartementService],
+  exports: [DepartementService],
 })
 export class DepartementModule {}

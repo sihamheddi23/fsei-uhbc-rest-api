@@ -12,9 +12,9 @@ export class CourseController {
     return this.courseService.create(createCourseDto);
   }
 
-  @Get()
-  findAll() {
-    return this.courseService.findAll();
+  @Get("/subject/:id")
+  findAll(@Param("id") id: number) {
+    return this.courseService.findAll(id);
   }
 
   @Get(':id')

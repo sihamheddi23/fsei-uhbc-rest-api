@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSubMajorDto } from './dto/create-sub-major.dto';
 import { UpdateSubMajorDto } from './dto/update-sub-major.dto';
 import { SubMajor } from './entities/sub-major.entity';
@@ -21,20 +21,20 @@ export class SubMajorService {
     };
   }
 
-  async findAll() : Promise<SubMajor[]> {
-    return await this.subMajorModel.findAll();
+  async findAll(departement_id: number) : Promise<SubMajor[]> {
+    return await this.subMajorModel.findAll({ where: { departement_id } });
   }
 
-  findOne(id: number) {
-    
-    return `This action returns a #${id} subMajor`;
+  async findOne(id: number): Promise<SubMajor>  {
+    const subMajor = await this.subMajorModel.findOne({ where: { _id: id } });
+    if (!subMajor) {
+      throw new NotFoundException('subMajor not found with this id');
+    }
+    return subMajor;
   }
 
-  update(id: number, updateSubMajorDto: UpdateSubMajorDto) {
-    return `This action updates a #${id} subMajor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} subMajor`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return await this.subMajorModel.destroy({ where: { _id: id } });
   }
 }

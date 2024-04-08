@@ -1,3 +1,8 @@
+export enum AdsType {
+    Faculty = "FACULTY",
+    Departement = "DEPARTEMENT",
+    News = "NEWS"
+}
 
 export enum Role {
     ADMIN = 'Admin',
@@ -10,13 +15,6 @@ export enum TeacherGrade {
     MAITRE_ASSISSTANT_B = "MAB",
     MAITRE_CONFERENCE_A = "MCA",
     MAITRE_CONFERENCE_B = "MCB"
-}
-
-export enum DepartementName {
-    INFORMATIQUE = "INFORMATIQUE",
-    CHIMIE = "CHIMIQUE",
-    PHYSIQUE = "PHYSIQUE",
-    MATHEMATIQUES = "MATHEMATIQUES"
 }
 
 export enum SubMajorLevels {

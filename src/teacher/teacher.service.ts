@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -13,9 +13,10 @@ export class TeacherService {
     private readonly authService: AuthService
   ) { }
   
-  async create(createTeacherDto: CreateTeacherDto): Promise<Teacher> {
+  async create(createTeacherDto: CreateTeacherDto): Promise<Teacher> {    
     const { user_id } = createTeacherDto;
     await this.authService.findOneUserByID(user_id);
+    
     return await this.teacherModel.create(createTeacherDto);
   }
 
@@ -23,8 +24,13 @@ export class TeacherService {
     return await this.teacherModel.findAll();
   }
 
-  async findOne(id: number) : Promise<Teacher> {
-    return await this.teacherModel.findOne({ where: { _id: id } });
+  async findOne(id: number): Promise<Teacher> {
+    const teacher = await this.teacherModel.findOne({ where: { _id: id } })
+    if (!teacher) {
+      throw new NotFoundException('teacher not found with this id');
+    }
+
+    return teacher;
   }
 
   async update(id: number, updateTeacherDto: UpdateTeacherDto) {

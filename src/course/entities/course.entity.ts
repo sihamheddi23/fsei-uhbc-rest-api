@@ -1,4 +1,4 @@
-import { Table, Column, Model, ForeignKey} from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, HasOne} from 'sequelize-typescript';
 import { Subject } from 'src/subject/entities/subject.entity';
 
 @Table
@@ -13,6 +13,7 @@ export class Course extends Model<Course> {
     description: string;
 
     @ForeignKey(() => Subject)
+    @Column   
     subject_id: number;
     
     @Column

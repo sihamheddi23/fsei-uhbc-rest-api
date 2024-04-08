@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { TeacherService } from './teacher.service';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
@@ -14,7 +14,9 @@ export class TeacherController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body() createTeacherDto: CreateTeacherDto) {
+  create(@Body(ValidationPipe) createTeacherDto: CreateTeacherDto) {
+    console.log(createTeacherDto.user_id);
+    
     return this.teacherService.create(createTeacherDto);
   }
 

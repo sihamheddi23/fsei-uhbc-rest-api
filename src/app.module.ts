@@ -4,17 +4,19 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DepartementModule } from './departement/departement.module';
 import { TeacherModule } from './teacher/teacher.module';
-import { ScheduleModule } from './schedule/schedule.module';
 import { CourseModule } from './course/course.module';
 import { AdsModule } from './ads/ads.module';
 import { SubMajorModule } from './sub-major/sub-major.module';
 import { SubjectModule } from './subject/subject.module';
+import { ScheduleModule } from './schedule/schedule.module';
 
 @Module({
-  imports: [AuthModule, ConfigModule.forRoot({
+  imports: [
+    AuthModule,
+    ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
-  }),
+    }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: process.env.DB_HOST,
@@ -27,10 +29,11 @@ import { SubjectModule } from './subject/subject.module';
     }),
     DepartementModule,
     TeacherModule,
-    ScheduleModule,
     CourseModule,
     AdsModule,
     SubMajorModule,
-    SubjectModule],
+    SubjectModule,
+    ScheduleModule,
+  ],
 })
 export class AppModule {}

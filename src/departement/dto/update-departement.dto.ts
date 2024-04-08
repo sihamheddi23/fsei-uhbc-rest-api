@@ -1,8 +1,4 @@
-import { IsNumber, IsUrl } from "class-validator";
+import { CreateDepartementDto } from './create-departement.dto';
+import { PartialType } from '@nestjs/mapped-types';
 
-export class UpdateDepartementDto  {
-    @IsNumber()
-    head_departement_id: number;
-    @IsUrl()
-    more_info_url?: string;
-}
+export class UpdateDepartementDto extends PartialType(CreateDepartementDto) {}

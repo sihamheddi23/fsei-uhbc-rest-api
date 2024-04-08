@@ -1,4 +1,4 @@
-import { Table, Column, Model, ForeignKey, HasOne} from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, HasMany} from 'sequelize-typescript';
 import { SubMajor } from 'src/sub-major/entities/sub-major.entity';
 import { Teacher } from 'src/teacher/entities/teacher.entity';
 
@@ -10,10 +10,12 @@ export class Subject extends Model<Subject> {
     @Column({ allowNull: false })
     name: string;
     
-    @ForeignKey(()=>SubMajor)
+    @ForeignKey(() => SubMajor)
+    @Column
     sub_major_id: number;
 
     @ForeignKey(() => Teacher)
+    @Column
     teacher_id: number
 }
 

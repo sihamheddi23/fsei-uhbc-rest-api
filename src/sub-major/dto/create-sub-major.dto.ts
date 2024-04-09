@@ -1,14 +1,16 @@
-import { ArrayContains, ArrayNotEmpty, IsArray, IsNumber, arrayContains } from "class-validator";
+import { ArrayContains, ArrayNotEmpty, IsAlpha, IsArray, IsNotEmpty, IsNumber, arrayContains } from "class-validator";
 import { Column } from "sequelize-typescript";
+import { IsArrayContains } from "src/utils/custom-validators";
 import { SubMajorLevels } from "src/utils/types";
 
 export class CreateSubMajorDto {
-    @Column({ allowNull: false })
+    @IsAlpha()
+    @IsNotEmpty()
     name: string;
 
     @IsArray()
     @ArrayNotEmpty({ message: 'level is required' })
-    @ArrayContains(Object.keys(SubMajorLevels))
+    @IsArrayContains(Object.keys(SubMajorLevels))
     levels: SubMajorLevels[];
 
     @IsNumber()

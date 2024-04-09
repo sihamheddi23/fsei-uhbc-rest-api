@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { SubMajorService } from './sub-major.service';
 import { CreateSubMajorDto } from './dto/create-sub-major.dto';
-import { UpdateSubMajorDto } from './dto/update-sub-major.dto';
 import { Roles } from 'src/utils/decorators';
 import { Role } from 'src/utils/types';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guards';
@@ -14,14 +13,14 @@ export class SubMajorController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body() createSubMajorDto: CreateSubMajorDto) {
+  create(@Body(ValidationPipe) createSubMajorDto: CreateSubMajorDto) {
     return this.subMajorService.create(createSubMajorDto);
   }
   
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get(":departement-id")
-  findAll(  @Param("departement-id") departement_id: number) {
+  @Get("/departement/:departement-id")
+  findAll(@Param("departement-id") departement_id: number) {
     return this.subMajorService.findAll(departement_id);
   }
    

@@ -1,4 +1,5 @@
 import { Table, Column, Model, ForeignKey, HasMany} from 'sequelize-typescript';
+import { Course } from 'src/course/entities/course.entity';
 import { SubMajor } from 'src/sub-major/entities/sub-major.entity';
 import { Teacher } from 'src/teacher/entities/teacher.entity';
 
@@ -17,5 +18,8 @@ export class Subject extends Model<Subject> {
     @ForeignKey(() => Teacher)
     @Column
     teacher_id: number
+
+    @HasMany(() => Course, 'subject_id')
+    courses: Course[]
 }
 

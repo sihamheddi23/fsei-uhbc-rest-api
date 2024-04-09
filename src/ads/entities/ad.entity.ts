@@ -13,14 +13,14 @@ export class Ad extends Model<Ad> {
     @Column({ allowNull: false })
     description: string;
     
-    @Column({ allowNull: false })
+    @Column({ allowNull: true })
     document_url: string;
     
     @Column({ allowNull: false })
     type: AdsType;
 
     @ForeignKey(() => Departement)
-    @Column
+    @Column({ allowNull: true })
     departement_id: number
 }
 

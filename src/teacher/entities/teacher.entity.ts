@@ -1,5 +1,6 @@
-import { Table, Column, Model, ForeignKey, HasMany} from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, HasMany, HasOne} from 'sequelize-typescript';
 import { User } from 'src/auth/entities/auth.entity';
+import { Departement } from 'src/departement/entities/departement.entity';
 import { Subject } from 'src/subject/entities/subject.entity';
 import { TeacherGrade } from 'src/utils/types';
 
@@ -24,5 +25,7 @@ export class Teacher extends Model<Teacher> {
     @HasMany(() => Subject)
     subjects: Subject[]
 
+    @HasOne(() => Departement, 'head_departement_id')
+    departement: Departement
 }
 

@@ -9,6 +9,7 @@ import { AdsModule } from './ads/ads.module';
 import { SubMajorModule } from './sub-major/sub-major.module';
 import { SubjectModule } from './subject/subject.module';
 import { ScheduleModule } from './schedule/schedule.module';
+import { ConseilScientifiqueModule } from './conseil-scientifique/conseil-scientifique.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ScheduleModule } from './schedule/schedule.module';
     SubMajorModule,
     SubjectModule,
     ScheduleModule,
+    ConseilScientifiqueModule,
   ],
 })
 export class AppModule {}

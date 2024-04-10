@@ -10,5 +10,6 @@ import { Teacher } from './entities/teacher.entity';
   imports: [AuthModule, JwtModule, SequelizeModule.forFeature([Teacher])],
   controllers: [TeacherController],
   providers: [TeacherService],
+  exports: [TeacherService],
 })
 export class TeacherModule {}

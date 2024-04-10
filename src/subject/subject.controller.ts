@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { SubjectService } from './subject.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
@@ -14,7 +14,7 @@ export class SubjectController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)  
   @Post()
-  create(@Body() createSubjectDto: CreateSubjectDto) {
+  create(@Body(ValidationPipe) createSubjectDto: CreateSubjectDto) {
     return this.subjectService.create(createSubjectDto);
   }
 
@@ -23,9 +23,9 @@ export class SubjectController {
     return this.subjectService.findAll();
   }
   
-  @Get("/departement/:departement_id")
-  findAllByDepartementID(@Param("departement_id") departement_id: number) {
-    return this.subjectService.findAllByDepartementID(departement_id);
+  @Get("/sub-major/:id")
+  findAllBySubMajor(@Param("id") id: number) {
+    return this.subjectService.findAllBySubMajor(id);
   }
 
   @Get(':id')
@@ -36,7 +36,7 @@ export class SubjectController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard) 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
+  update(@Param('id') id: string, @Body(ValidationPipe) updateSubjectDto: UpdateSubjectDto) {
     return this.subjectService.update(+id, updateSubjectDto);
   }
    

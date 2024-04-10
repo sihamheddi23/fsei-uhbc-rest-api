@@ -28,7 +28,7 @@ export class SubMajorService {
   async findOne(id: number): Promise<SubMajor>  {
     const subMajor = await this.subMajorModel.findOne({ where: { _id: id } });
     if (!subMajor) {
-      throw new NotFoundException('subMajor not found with this id');
+      throw new NotFoundException(`subMajor not found with this id ${id}`);
     }
     return subMajor;
   }

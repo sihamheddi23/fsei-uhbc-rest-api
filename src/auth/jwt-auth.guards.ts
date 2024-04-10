@@ -18,7 +18,6 @@ export class JwtAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    
     const token = this.extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
@@ -27,6 +26,7 @@ export class JwtAuthGuard implements CanActivate {
     try {
       let response;
       const { id } = await this.jwtService.decode(token);
+
       jwt.verify(token, process.env.JWT_SECRET,  (error) => {
         if (error) {
           const err = { ...error }
@@ -40,10 +40,12 @@ export class JwtAuthGuard implements CanActivate {
         } 
         response = true 
       })
+
       const user = await this.authService.findUserBySessionId(id);
       if(!user){
         throw new UnauthorizedException("unauthorized acces you need to login");
       }
+
       user["password"] = null
       request['user'] = user;
       return response

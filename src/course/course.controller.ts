@@ -11,7 +11,7 @@ import { RolesGuard } from 'src/auth/role.guard';
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
    
-  @Roles(Role.TEACHER)
+  @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard) 
   @Post()
   create(@Body(ValidationPipe) createCourseDto: CreateCourseDto) {
@@ -28,14 +28,14 @@ export class CourseController {
     return this.courseService.findOne(+id);
   }
   
-  @Roles(Role.TEACHER)
+  @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard) 
   @Patch(':id')
   update(@Param('id') id: string, @Body(ValidationPipe) updateCourseDto: UpdateCourseDto) {
     return this.courseService.update(+id, updateCourseDto);
   }
   
-  @Roles(Role.TEACHER)
+  @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard) 
   @Delete(':id')
   remove(@Param('id') id: string) {

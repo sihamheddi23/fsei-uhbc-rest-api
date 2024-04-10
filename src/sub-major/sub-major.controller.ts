@@ -17,20 +17,16 @@ export class SubMajorController {
     return this.subMajorService.create(createSubMajorDto);
   }
   
-  @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Get("/departement/:departement-id")
-  findAll(@Param("departement-id") departement_id: number) {
-    return this.subMajorService.findAll(departement_id);
-  }
-   
-  @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.subMajorService.findOne(+id);
   }
- 
+
+  @Get("/departement/:id")
+  findAll(@Param("id") departement_id: number) {
+    return this.subMajorService.findAll(departement_id);
+  }
+   
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')

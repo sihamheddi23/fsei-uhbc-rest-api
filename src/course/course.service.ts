@@ -4,6 +4,7 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Course } from './entities/course.entity';
 import { SubjectService } from 'src/subject/subject.service';
+import * as fs from 'fs';
 
 @Injectable()
 export class CourseService {
@@ -11,11 +12,10 @@ export class CourseService {
     @InjectModel(Course) private readonly courseModel: typeof Course,
     private readonly subjectService: SubjectService
   ) {}
-  async create(createCourseDto: CreateCourseDto): Promise<Course> {
+  async create(createCourseDto: CreateCourseDto, file: Express.Multer.File): Promise<Course> {
     const { subject_id } = createCourseDto;
     await this.subjectService.findOne(subject_id);
-    
-    return await this.courseModel.create(createCourseDto);
+    return await this.courseModel.create({...createCourseDto, pdf_url: file.path});
   }
 
   async findAll(subject_id: number): Promise<Course[]> {
@@ -34,18 +34,27 @@ export class CourseService {
     return course;
   }
 
-  async update(id: number, updateCourseDto: UpdateCourseDto) {
-    await this.findOne(id);
+  async update(id: number, updateCourseDto: UpdateCourseDto, file?: Express.Multer.File) {
+    const filePath = (await this.findOne(id)).pdf_url;
+
     const { subject_id } = updateCourseDto;
-    await this.subjectService.findOne(subject_id);
-    
-    return await this.courseModel.update(updateCourseDto, {
+    if (subject_id) await this.subjectService.findOne(subject_id);
+
+    const data: any = { ...updateCourseDto };
+    if (file) {
+      data.pdf_url = file.path;
+      if (filePath) fs.unlinkSync(filePath);
+    }
+
+    return await this.courseModel.update(data, {
       where: { _id: id },
     });
   }
 
   async remove(id: number) {
-    await this.findOne(id);
+    const filePath = (await this.findOne(id)).pdf_url;
+    if (filePath) fs.unlinkSync(filePath);
+    
     return await this.courseModel.destroy({ where: { _id: id } });
   }
 }

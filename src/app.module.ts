@@ -10,9 +10,13 @@ import { SubMajorModule } from './sub-major/sub-major.module';
 import { SubjectModule } from './subject/subject.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { ConseilScientifiqueModule } from './conseil-scientifique/conseil-scientifique.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
+    MulterModule.register({
+      dest: './uploads'
+    }),
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env',

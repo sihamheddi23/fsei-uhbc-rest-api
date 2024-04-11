@@ -42,12 +42,8 @@ export class JwtAuthGuard implements CanActivate {
       })
 
       const user = await this.authService.findUserBySessionId(id);
-      if(!user){
-        throw new UnauthorizedException("unauthorized acces you need to login");
-      }
-
       user["password"] = null
-      request['user'] = user;
+      request['user'] = { sid:id, ...user.dataValues };
       return response
     } catch (error) {
       const err = {...error}

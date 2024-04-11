@@ -5,15 +5,10 @@ export class CreateCourseDto {
     @IsAlpha()
     name: string;
 
-    @IsAlpha()
     @IsNotEmpty()
     @Length(10, 255)
     description: string;
 
     @IsNotEmpty()
-    @IsNumber()
     subject_id: number;
-    
-    @IsUrl()
-    pdf_url: string;
 }

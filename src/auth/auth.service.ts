@@ -18,8 +18,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
 
-  async unvalidateSession(id: string): Promise<void> {
-    await this.sessionModel.update({ isValid: false }, { where: { _id: id } });
+  async unvalidateSession(id: string){
+    return await this.sessionModel.update({ isValid: false }, { where: { _id: id } });
   }
   
   async findOneUserByID(id: number): Promise<User> {
@@ -33,8 +33,9 @@ export class AuthService {
 
   async findUserBySessionId(id: string): Promise<User> {
     const session = await this.sessionModel.findOne({ where: { _id: id } });
+    
     if (!session || !session.isValid) {
-      throw new UnauthorizedException('unauthorized');
+      throw new UnauthorizedException('unauthorized acces you need to login');
     }
 
     return this.findOneUserByID(session.userID);

@@ -16,7 +16,10 @@ export class CourseService {
   async create(createCourseDto: CreateCourseDto, file: Express.Multer.File): Promise<Course> {
     const { subject_id } = createCourseDto;
     await this.subjectService.findOne(subject_id);
+
     const course = await new Course({ ...createCourseDto });
+    await course.save();
+    
     const filePath = onUploadFile("course", course._id, file, "courses");
     course.pdf_url = filePath;
     await course.save();
@@ -48,7 +51,9 @@ export class CourseService {
 
     const data: any = { ...updateCourseDto };
     if (file) {
-      data.pdf_url = file.path;
+      const newfilePath = onUploadFile("course", id, file, "courses");
+      data.pdf_url = newfilePath;
+      
       if (filePath) fs.unlinkSync(filePath);
     }
 

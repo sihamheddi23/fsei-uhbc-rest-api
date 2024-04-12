@@ -32,8 +32,6 @@ export class CourseController {
     @Body(ValidationPipe) createCourseDto: CreateCourseDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log("slsslsl ",file.originalname);
-    
     return this.courseService.create(createCourseDto, file);
   }
 

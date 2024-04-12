@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Course } from './entities/course.entity';
 import { SubjectService } from 'src/subject/subject.service';
 import * as fs from 'fs';
+import { onUploadFile } from 'src/utils/storage';
 
 @Injectable()
 export class CourseService {
@@ -15,7 +16,12 @@ export class CourseService {
   async create(createCourseDto: CreateCourseDto, file: Express.Multer.File): Promise<Course> {
     const { subject_id } = createCourseDto;
     await this.subjectService.findOne(subject_id);
-    return await this.courseModel.create({...createCourseDto, pdf_url: file.path});
+    const course = await new Course({ ...createCourseDto });
+    const filePath = onUploadFile("course", course._id, file, "courses");
+    course.pdf_url = filePath;
+    await course.save();
+    
+    return course;
   }
 
   async findAll(subject_id: number): Promise<Course[]> {

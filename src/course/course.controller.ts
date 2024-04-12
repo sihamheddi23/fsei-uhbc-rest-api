@@ -19,7 +19,6 @@ import { Roles } from 'src/utils/decorators';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { RolesGuard } from 'src/auth/role.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { onUploadFile } from 'src/utils/storage';
 
 @Controller('course')
 export class CourseController {
@@ -28,11 +27,13 @@ export class CourseController {
   @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('document_pdf', onUploadFile("courses","course")))
+  @UseInterceptors(FileInterceptor('document_pdf'))
   create(
     @Body(ValidationPipe) createCourseDto: CreateCourseDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log("slsslsl ",file.originalname);
+    
     return this.courseService.create(createCourseDto, file);
   }
 
@@ -49,7 +50,7 @@ export class CourseController {
   @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('document_pdf', onUploadFile("courses","course")))
+  @UseInterceptors(FileInterceptor('document_pdf'))
   update(
     @Param('id') id: string,
     @Body(ValidationPipe) updateCourseDto: UpdateCourseDto,

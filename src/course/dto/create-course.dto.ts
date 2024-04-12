@@ -1,4 +1,4 @@
-import { IsAlpha, IsNotEmpty, IsNumber, IsUrl, Length } from "class-validator";
+import { IsAlpha, IsNotEmpty, Length } from "class-validator";
 
 export class CreateCourseDto {
     @IsNotEmpty()

@@ -1,0 +1,1066 @@
+{
+	"info": {
+		"_postman_id": "e65ea8e7-bbc7-4a80-aa73-7b5358dee587",
+		"name": "faculty",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28374934"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usernameOrEmail\":\"belkadi31\",\r\n    \"password\":\"f12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/auth/login",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"belkadi31\",\r\n    \"password\":\"f12345\",\r\n    \"role\":\"Teacher\",\r\n    \"email\":\"k.belkadi@univ-chlef.dz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/auth/add-user",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"auth",
+								"add-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/auth/logout",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Departement",
+			"item": [
+				{
+					"name": "get all departements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/departement/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"departement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get  departement by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/departement/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"departement",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create departement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOVQxMDozOToxOS40NjhaIiwiaWF0IjoxNzEyNjU5MTU5LCJleHAiOjE3MTI3NDU1NTl9.d77TKH4Mat1UrwEKBZ0c4_ZmaZj3SRJuwgtFATFT8qE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"informatics\",\r\n    \"head_departement_id\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/departement/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"departement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update departement",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOFQxNDo0OTo1Ni45MDVaIiwiaWF0IjoxNzEyNTg3Nzk2LCJleHAiOjE3MTI2NzQxOTZ9.Bls6iPNW0LePMXqtQZIHsX4WIV7-tucJ6KlHRsqaAEk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n   {\r\n    \"name\":\"a\",\r\n    \"head_departement_id\":1\r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/departement/5",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"departement",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete departement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOFQxNDo0OTo1Ni45MDVaIiwiaWF0IjoxNzEyNTg3Nzk2LCJleHAiOjE3MTI2NzQxOTZ9.Bls6iPNW0LePMXqtQZIHsX4WIV7-tucJ6KlHRsqaAEk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}/departement/5",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"departement",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teacher",
+			"item": [
+				{
+					"name": "update teacher",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOFQxNDowODo0Ny4xMTdaIiwiaWF0IjoxNzEyNTg1MzI3LCJleHAiOjE3MTI2NzE3Mjd9.vvUw4EqN48Qu72GzCvZ_C1La-00VJ5Zl8KiHrlotsTE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"grade\": \"MAA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/teacher/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"teacher",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create teacher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Khadidja\",\r\n    \"last_name\": \"belkadi\",\r\n    \"grade\": \"MAA\",\r\n    \"user_id\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/teacher/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"teacher",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get teacher by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/teacher/4",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"teacher",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove teacher",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOFQxNDowODo0Ny4xMTdaIiwiaWF0IjoxNzEyNTg1MzI3LCJleHAiOjE3MTI2NzE3Mjd9.vvUw4EqN48Qu72GzCvZ_C1La-00VJ5Zl8KiHrlotsTE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}/teacher/4",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"teacher",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all teachers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/teacher/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"teacher",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ad",
+			"item": [
+				{
+					"name": "create ad",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY3JlYXRlZEF0IjoiMjAyNC0wNC0wOVQxMDozOToxOS40NjhaIiwiaWF0IjoxNzEyNjU5MTU5LCJleHAiOjE3MTI3NDU1NTl9.d77TKH4Mat1UrwEKBZ0c4_ZmaZj3SRJuwgtFATFT8qE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "blablabla bla",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "akkakakaka kakakakaka kakakakakaka",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "FACULTY",
+									"type": "text"
+								},
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/coding life/Dessin1.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/ads/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get faculty ads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/ads/all/faculty",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"all",
+								"faculty"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get news ads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/ads/all/news",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"all",
+								"news"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get departement ads",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/ads/all/departement/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"all",
+								"departement",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update ad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/coding life/Dessin1.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/ads/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get ads by id ",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/ads/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ads",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/ads/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"ads",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "submajors",
+			"item": [
+				{
+					"name": "create submajor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"departement_id\":3,\r\n    \"name\":\"SystemeInformatique\",\r\n    \"levels\":[\"L1\",\"L2\",\"L3\"]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/sub-major",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"sub-major"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get sub majors by departement id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/sub-major/departement/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"sub-major",
+								"departement",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get sub majors by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/sub-major/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"sub-major",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete sub major id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/sub-major/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"sub-major",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedule",
+			"item": [
+				{
+					"name": "get all schedules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/schedule/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all schedules by submajor id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/schedule/sub-major/2",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								"sub-major",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get schedule by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/schedule/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update schedule",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/article-header-social-media-marketing-bigcommerce.jpg"
+								},
+								{
+									"key": "title",
+									"value": "اختبار سداسي الثاني ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/schedule/12",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create schedule",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "الاستدراك",
+									"type": "text"
+								},
+								{
+									"key": "sub_major_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/coding life/Dessin1.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/schedule/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete schedule",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/schedule/9",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"schedule",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subject",
+			"item": [
+				{
+					"name": "get subjects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/subject/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"subject",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get subjects by submajor id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get subject by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/subject/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"subject",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update subject",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"logique\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/subject/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"subject",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete subject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/subject/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"subject",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"thl\",\r\n    \"sub_major_id\": 7,\r\n    \"teacher_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local}}/subject/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"subject",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "create course",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "komo",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "shshss shshhsshhssh shshshshsh",
+									"type": "text"
+								},
+								{
+									"key": "subject_id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/coding life/Dessin1.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/course/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"course",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get courses by subject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/course/subject/3",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"course",
+								"subject",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get course by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/course/1",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"course",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update course",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "document_pdf",
+									"type": "file",
+									"src": "/C:/Users/siham/Desktop/CV_TEMPLATE_0009.pdf"
+								},
+								{
+									"key": "title",
+									"value": "sdsdsds sddsds",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{local}}/course/33",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"course",
+								"33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete course",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local}}/course/14",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"course",
+								"14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjgsImNyZWF0ZWRBdCI6IjIwMjQtMDQtMTNUMTQ6MDc6MTcuNjI5WiIsImlhdCI6MTcxMzAxNzIzNywiZXhwIjoxNzEzMTAzNjM3fQ.bdmwZpFoNP-qiJBT7S_mGopwkS9ZT_U9-cCRPAq4wMw",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

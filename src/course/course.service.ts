@@ -58,7 +58,6 @@ export class CourseService {
       
       if (filePath) fs.unlinkSync(filePath);
     }
-    console.log(data);
     
     return await this.courseModel.update(data, {
       where: { _id: id },

@@ -32,6 +32,7 @@ export class CourseController {
     @Body(ValidationPipe) createCourseDto: CreateCourseDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+
     return this.courseService.create(createCourseDto, file);
   }
 
@@ -45,7 +46,7 @@ export class CourseController {
     return this.courseService.findOne(+id);
   }
 
-  @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
+ @Roles(Role.TEACHER, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('document_pdf'))
@@ -53,8 +54,7 @@ export class CourseController {
     @Param('id') id: string,
     @Body(ValidationPipe) updateCourseDto: UpdateCourseDto,
     @UploadedFile() file: Express.Multer.File
-  ) {
-    console.log("file ", file);
+ ) {
     return this.courseService.update(+id, updateCourseDto, file);
   }
 

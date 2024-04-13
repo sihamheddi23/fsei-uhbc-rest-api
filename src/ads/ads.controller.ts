@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, ValidationPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { AdsService } from './ads.service';
 import { CreateAdDto } from './dto/create-ad.dto';
 import { UpdateAdDto } from './dto/update-ad.dto';
@@ -6,6 +6,7 @@ import { Roles } from 'src/utils/decorators';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { RolesGuard } from 'src/auth/role.guard';
 import { Role } from 'src/utils/types';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('ads')
 export class AdsController {
@@ -14,8 +15,9 @@ export class AdsController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)  
   @Post()
-  create(@Body(ValidationPipe) createAdDto: CreateAdDto) {
-    return this.adsService.create(createAdDto);
+  @UseInterceptors(FileInterceptor('document_pdf'))
+  create(@Body(ValidationPipe) createAdDto: CreateAdDto, @UploadedFile() file: Express.Multer.File) {
+    return this.adsService.create(createAdDto, file);
   }
 
   @Get()
@@ -38,8 +40,9 @@ export class AdsController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)  
   @Patch(':id')
-  update(@Param('id') id: string, @Body(ValidationPipe) updateAdDto: UpdateAdDto) {
-    return this.adsService.update(+id, updateAdDto);
+  @UseInterceptors(FileInterceptor('document_pdf'))
+  update(@Param('id') id: string, @Body(ValidationPipe) updateAdDto: UpdateAdDto, @UploadedFile()file: Express.Multer.File) {
+    return this.adsService.update(+id, updateAdDto, file);
   }
 
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)

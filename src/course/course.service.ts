@@ -19,8 +19,9 @@ export class CourseService {
 
     const course = await new Course({ ...createCourseDto });
     await course.save();
-    
-    const filePath = onUploadFile("course", course._id, file, "courses");
+
+    let extensions = ['pdf'];
+    const filePath = onUploadFile("course", course._id, file, "courses", extensions);
     course.pdf_url = filePath;
     await course.save();
     
@@ -51,12 +52,14 @@ export class CourseService {
 
     const data: any = { ...updateCourseDto };
     if (file) {
-      const newfilePath = onUploadFile("course", id, file, "courses");
+      let extensions = ['pdf'];
+      const newfilePath = onUploadFile("course", id, file, "courses", extensions);
       data.pdf_url = newfilePath;
       
       if (filePath) fs.unlinkSync(filePath);
     }
-
+    console.log(data);
+    
     return await this.courseModel.update(data, {
       where: { _id: id },
     });

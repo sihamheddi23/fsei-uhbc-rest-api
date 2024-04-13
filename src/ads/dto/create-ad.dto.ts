@@ -8,10 +8,6 @@ export class CreateAdDto {
     @IsNotEmpty()
     description: string;
     
-    @IsOptional()
-    @IsUrl()
-    document_url: string;
-    
     @IsEnum(AdsType)
     @IsNotEmpty()
     type: AdsType;

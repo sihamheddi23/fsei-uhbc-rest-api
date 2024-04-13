@@ -8,6 +8,8 @@ import {
   Delete,
   ValidationPipe,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ScheduleService } from './schedule.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
@@ -16,6 +18,7 @@ import { Roles } from 'src/utils/decorators';
 import { Role } from 'src/utils/types';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guards';
 import { RolesGuard } from 'src/auth/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('schedule')
 export class ScheduleController {
@@ -24,8 +27,9 @@ export class ScheduleController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
-  create(@Body(ValidationPipe) createScheduleDto: CreateScheduleDto) {
-    return this.scheduleService.create(createScheduleDto);
+  @UseInterceptors(FileInterceptor('document_pdf'))
+  create(@Body(ValidationPipe) createScheduleDto: CreateScheduleDto, @UploadedFile() file: Express.Multer.File) {
+    return this.scheduleService.create(createScheduleDto, file);
   }
 
   @Get()
@@ -46,11 +50,13 @@ export class ScheduleController {
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
+  @UseInterceptors(FileInterceptor('document_pdf'))
   update(
     @Param('id') id: string,
     @Body(ValidationPipe) updateScheduleDto: UpdateScheduleDto,
+    @UploadedFile() file: Express.Multer.File
   ) {
-    return this.scheduleService.update(+id, updateScheduleDto);
+    return this.scheduleService.update(+id, updateScheduleDto, file);
   }
 
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)

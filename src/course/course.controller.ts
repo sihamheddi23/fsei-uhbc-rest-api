@@ -54,6 +54,7 @@ export class CourseController {
     @Body(ValidationPipe) updateCourseDto: UpdateCourseDto,
     @UploadedFile() file: Express.Multer.File
   ) {
+    console.log("file ", file);
     return this.courseService.update(+id, updateCourseDto, file);
   }
 

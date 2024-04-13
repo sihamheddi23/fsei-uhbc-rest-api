@@ -13,7 +13,7 @@ export class Schedule extends Model<Schedule> {
     @Column({ allowNull: false })
     sub_major_id: number;
 
-    @Column({ allowNull: false })
+    @Column({ allowNull: true })
     pdf_url: string
 }
 

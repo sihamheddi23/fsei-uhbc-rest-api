@@ -1,9 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { Schedule } from './entities/schedule.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { SubMajorService } from 'src/sub-major/sub-major.service';
+import { onUploadFile } from 'src/utils/storage';
+import * as fs from 'fs';
 
 @Injectable()
 export class ScheduleService {
@@ -12,10 +14,23 @@ export class ScheduleService {
     private readonly subMajorService: SubMajorService
   ) {}
 
-  async create(createScheduleDto: CreateScheduleDto): Promise<Schedule> {
+  async create(createScheduleDto: CreateScheduleDto, file: Express.Multer.File): Promise<Schedule> {
     const { sub_major_id } = createScheduleDto
     await this.subMajorService.findOne(sub_major_id);
-    return await this.scheduleModel.create(createScheduleDto);
+    
+    if(!file) {
+      throw new BadRequestException('file not found');
+    }
+
+    const schedule = new Schedule({ ...createScheduleDto });
+    await schedule.save();
+    
+    const extensions = ['pdf', 'jpg', 'png', 'jpeg'];
+    const filePath = onUploadFile("schedule", schedule._id, file, "schedules", extensions);
+    schedule.pdf_url = filePath;
+    await schedule.save();
+
+    return schedule;
   }
 
   async findAll(): Promise<Schedule[]> {
@@ -35,20 +50,30 @@ export class ScheduleService {
     return schedule;
   }
 
-  async update(id: number, updateScheduleDto: UpdateScheduleDto) {
-    await this.findOne(id);
+  async update(id: number, updateScheduleDto: UpdateScheduleDto, file: Express.Multer.File) {
+    const filePath = (await this.findOne(id)).pdf_url;
     const { sub_major_id } = updateScheduleDto
     if (sub_major_id) {
       await this.subMajorService.findOne(sub_major_id);
     }
+    
+    const data: any = { ...updateScheduleDto }
+    if (file) {
+      const extensions = ['pdf', 'jpg', 'png', 'jpeg'];
+      const newfilePath = onUploadFile("schedule", id, file, "schedules", extensions);
+      data.pdf_url = newfilePath;
+      if (filePath) fs.unlinkSync(filePath);
+    }
    
-    return await this.scheduleModel.update(updateScheduleDto, {
+    return await this.scheduleModel.update(data, {
       where: { _id: id },
     });
   }
 
   async remove(id: number) {
-    await this.findOne(id);
+    const filePath = (await this.findOne(id)).pdf_url;
+    if (filePath) fs.unlinkSync(filePath);
+
     return await this.scheduleModel.destroy({ where: { _id: id } });
   }
 }

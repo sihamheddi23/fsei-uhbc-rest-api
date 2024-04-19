@@ -55,7 +55,7 @@ export class AuthService {
     });
   }
 
-  async login(loginDto: LoginInputDto,userAgent:string): Promise<{ token: string }> {
+  async login(loginDto: LoginInputDto,userAgent:string): Promise<{ token: string, role: string }> {
     const { usernameOrEmail, password } = loginDto;
     const user = await this.findOneByUsernameOrEmail(usernameOrEmail);
     if (!user) {
@@ -71,7 +71,7 @@ export class AuthService {
 
     const token = this.jwtService.sign({ id: session._id, createdAt: session.createdAt });
 
-    return { token };
+    return { token, role: user.role };
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {

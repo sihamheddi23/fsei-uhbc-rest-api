@@ -26,6 +26,13 @@ import { ScheduleModule } from './schedule/schedule.module';
       database: process.env.DB_NAME,
       autoLoadModels: true,
       synchronize: true,
+      ssl: true,
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      }
     }),
     DepartementModule,
     TeacherModule,

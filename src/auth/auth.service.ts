@@ -7,6 +7,7 @@ import { Op } from 'sequelize';
 import { comparePassword, encryptPassword } from 'src/utils/hashing';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SessionToken } from './entities/session.entity';
+import { UpdateUserDto } from './dto/update-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,21 @@ export class AuthService {
     private readonly sessionModel: typeof SessionToken,
     private jwtService: JwtService,
   ) { }
+  
+  async getUsers(): Promise<User[]> {
+    const users = await this.userModel.findAll({ attributes: { exclude: ['password'] } });
+    return users;
+  }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    await this.findOneUserByID(id);
+    return await this.userModel.update(updateUserDto, { where: { _id: id } });
+  }
+
+  async deleteUser(id: number) {
+    await this.findOneUserByID(id);
+    return await this.userModel.destroy({ where: { _id: id } });
+  }
 
   async unvalidateSession(id: string){
     return await this.sessionModel.update({ isValid: false }, { where: { _id: id } });

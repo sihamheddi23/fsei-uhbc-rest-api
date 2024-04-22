@@ -26,6 +26,10 @@ export class AuthService {
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     await this.findOneUserByID(id);
+    const { password } = updateUserDto;
+    if (password) {
+      updateUserDto.password = await encryptPassword(password);
+    }
     return await this.userModel.update(updateUserDto, { where: { _id: id } });
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe, Query } from '@nestjs/common';
 import { DepartementService } from './departement.service';
 import { CreateDepartementDto } from './dto/create-departement.dto';
 import { UpdateDepartementDto } from './dto/update-departement.dto';
@@ -19,8 +19,8 @@ export class DepartementController {
   }
 
   @Get()
-  findAll() {
-    return this.departementService.findAll();
+  findAll(@Query('limit') limit: number) {
+    return this.departementService.findAll(limit);
   }
 
   @Get(':id')

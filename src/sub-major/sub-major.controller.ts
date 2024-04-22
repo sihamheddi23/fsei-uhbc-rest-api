@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe, Query } from '@nestjs/common';
 import { SubMajorService } from './sub-major.service';
 import { CreateSubMajorDto } from './dto/create-sub-major.dto';
 import { Roles } from 'src/utils/decorators';
@@ -21,10 +21,15 @@ export class SubMajorController {
   findOne(@Param('id') id: string) {
     return this.subMajorService.findOne(+id);
   }
+  
+  @Get()
+  findAll(@Query("limit") limit: number) {
+    return this.subMajorService.findAll(limit);
+  }
 
   @Get("/departement/:id")
-  findAll(@Param("id") departement_id: number) {
-    return this.subMajorService.findAll(departement_id);
+  findAllDeapartement(@Param("id") departement_id: number, @Query("limit") limit: number) {
+    return this.subMajorService.findAll(departement_id, limit);
   }
    
   @Roles(Role.ADMIN, Role.HEAD_DEPARTEMENT)

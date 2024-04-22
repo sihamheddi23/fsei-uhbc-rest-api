@@ -12,8 +12,8 @@ export class DepartementService {
     return await this.departementModel.create(createDepartementDto);
   }
 
- async findAll() {
-    return await this.departementModel.findAll();
+ async findAll(limit: number=10) {
+    return await this.departementModel.findAll({limit});
   }
 
   async findOne(id: number): Promise<Departement> {

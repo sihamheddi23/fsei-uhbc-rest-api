@@ -21,8 +21,11 @@ export class SubMajorService {
     };
   }
 
-  async findAll(departement_id: number) : Promise<SubMajor[]> {
-    return await this.subMajorModel.findAll({ where: { departement_id } });
+  async findAll(departement_id?: number, limit: number = 10): Promise<SubMajor[]> {
+    if (!departement_id) {
+      return await this.subMajorModel.findAll({ limit });
+    }
+    return await this.subMajorModel.findAll({ where: { departement_id } , limit });
   }
 
   async findOne(id: number): Promise<SubMajor>  {

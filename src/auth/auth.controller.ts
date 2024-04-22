@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request, ValidationPipe, Get, Put, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, ValidationPipe, Get, Put, Param, Delete, Patch, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { JwtAuthGuard } from './jwt-auth.guards';
@@ -15,7 +15,7 @@ export class AuthController {
   @Get("/users")
   @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async getUsers(limit: number=10) {
+  async getUsers(@Query("limit") limit: number) {
     return await this.authService.getUsers(limit);
   }
 

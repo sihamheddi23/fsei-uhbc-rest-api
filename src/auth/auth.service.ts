@@ -19,7 +19,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
   
-  async getUsers(limit: number): Promise<User[]> {
+  async getUsers(limit: number=10): Promise<User[]> {
     const users = await this.userModel.findAll({ attributes: { exclude: ['password'] }, limit } );
     return users;
   }

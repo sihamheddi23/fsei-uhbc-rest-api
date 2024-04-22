@@ -15,8 +15,8 @@ export class AuthController {
   @Get("/users")
   @Roles(Role.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
-  async getUsers() {
-    return await this.authService.getUsers();
+  async getUsers(limit: number=10) {
+    return await this.authService.getUsers(limit);
   }
 
   @Patch("/users/:id")

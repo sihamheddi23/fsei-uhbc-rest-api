@@ -20,8 +20,15 @@ export class TeacherService {
     return await this.teacherModel.create(createTeacherDto);
   }
 
-  async findAll() : Promise<Teacher[]> {
-    return await this.teacherModel.findAll();
+  async findAll() {
+    const data = []
+    const teachers:any = await this.teacherModel.findAll();
+    for (const teacher of teachers) {
+      const user = await this.authService.findOneUserByID(teacher.user_id)
+      data.push({...(teacher.dataValues), username: user.dataValues['username']})
+    }
+
+    return data
   }
 
   async findOne(id: number): Promise<Teacher> {

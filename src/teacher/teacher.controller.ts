@@ -25,6 +25,11 @@ export class TeacherController {
     return this.teacherService.findAll();
   }
 
+  @Get('head-departement')
+  getHeadDepartementTeachers() {
+    return this.teacherService.getHeadDepartementTeachers();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.teacherService.findOne(+id);

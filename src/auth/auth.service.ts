@@ -8,6 +8,7 @@ import { comparePassword, encryptPassword } from 'src/utils/hashing';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SessionToken } from './entities/session.entity';
 import { UpdateUserDto } from './dto/update-auth.dto';
+import { Role } from 'src/utils/types';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,17 @@ export class AuthService {
   async getUsers(limit: number=10): Promise<User[]> {
     const users = await this.userModel.findAll({ attributes: { exclude: ['password'] }, limit } );
     return users;
+  }
+  
+  async getHeadDepartements() {
+    const teachers = []
+    const users = await this.userModel.findAll({ attributes: { exclude: ['password'] }, where: { role: Role.HEAD_DEPARTEMENT } });
+    for (let i = 0; i < users.length; i++) {
+      const teacher = (await users[i].$get('teacher'))?.get()
+      if(teacher) teachers.push(teacher)
+    }
+
+    return teachers;
   }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {

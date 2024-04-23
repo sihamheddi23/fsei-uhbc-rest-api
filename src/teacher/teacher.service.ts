@@ -40,6 +40,11 @@ export class TeacherService {
     return teacher;
   }
 
+  async getHeadDepartementTeachers() {
+    const teachers = await this.authService.getHeadDepartements()
+    return teachers;
+  }
+
   async update(id: number, updateTeacherDto: UpdateTeacherDto) {
     await this.findOne(id);
     return await this.teacherModel.update(updateTeacherDto, { where: { _id: id } });

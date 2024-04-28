@@ -6,11 +6,13 @@ import { InjectModel } from '@nestjs/sequelize';
 import { AdsType } from 'src/utils/types';
 import { onUploadFile } from 'src/utils/storage';
 import * as fs from "fs"
+import { DepartementService } from 'src/departement/departement.service';
 
 @Injectable()
 export class AdsService {
 
-  constructor(@InjectModel(Ad) private readonly adModel: typeof Ad) {}
+  constructor(@InjectModel(Ad) private readonly adModel: typeof Ad,
+    private readonly departementService: DepartementService) { }
   
   async create(createAdDto: CreateAdDto, file: Express.Multer.File): Promise<Ad> {
     const { type } = createAdDto;
@@ -51,6 +53,15 @@ export class AdsService {
   }
 
   async findAll(limit: number): Promise<Ad[]> {
+    const ads = await this.adModel.findAll({ limit });
+    const new_ads = []
+    
+    for (let i = 0; i < ads.length; i++) {
+      const ad = ads[i]?.dataValues;
+      const departement:any = this.departementService.findOne(ad.departement_id);
+      new_ads.push({ ...ad, departement_name: departement.name })
+    }
+
     return await this.adModel.findAll({ limit });
   }
 

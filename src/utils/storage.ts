@@ -21,7 +21,7 @@ export const onUploadFile =  (prefix, id, file, dir, extensions) => {
   
     try {
       fs.writeFileSync(newPath, file.buffer);
-      return newPath.split(".")[1]
+      return newPath.split("./")[1]
     } catch (err) {
       throw err;
     }

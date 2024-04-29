@@ -63,15 +63,16 @@ export class AdsService {
     
     for (let i = 0; i < ads.length; i++) {
       const ad = ads[i]?.dataValues;
-      if (ad.type === AdsType.Departement) {
-        const departement: any = this.departementService.findOne(ad.departement_id);
+      
+      if (ad.type === "DEPARTEMENT") {
+        const departement: any = await this.departementService.findOne(ad.departement_id);
         new_ads.push({ ...ad, departement_name: departement.name })
       } else {
         new_ads.push(ad)
       }
     }
 
-    return await this.adModel.findAll({ limit });
+    return new_ads;
   }
 
   async findAllByType(limit: number, type: string, departement_id: number): Promise<Ad[]> {

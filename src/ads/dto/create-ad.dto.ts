@@ -13,6 +13,5 @@ export class CreateAdDto {
     type: AdsType;
      
     @IsOptional()
-    @IsNumber()
-    departement_id: number
+    departement_id: string
 }

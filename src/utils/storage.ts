@@ -1,7 +1,7 @@
-import * as fs from 'fs'
+import * as fs from 'node:fs'
 import { BadRequestException } from "@nestjs/common";
 
-export const onUploadFile = (prefix, id, file, dir, extensions) => {
+export const onUploadFile =  (prefix, id, file, dir, extensions) => {
     const UPLOAD_FILE_DIR = `./uploads/${dir}`;
    
     if (!fs.existsSync(UPLOAD_FILE_DIR)) {
@@ -21,7 +21,7 @@ export const onUploadFile = (prefix, id, file, dir, extensions) => {
   
     try {
       fs.writeFileSync(newPath, file.buffer);
-      return newPath
+      return newPath.split(".")[1]
     } catch (err) {
       throw err;
     }

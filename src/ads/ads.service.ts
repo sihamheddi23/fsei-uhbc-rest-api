@@ -36,7 +36,12 @@ export class AdsService {
 
     const transaction = await this.adModel.sequelize.transaction();
     try {
-      const ad: any = await new Ad({ ...createAdDto });
+      const { departement_id } = createAdDto
+      let id;
+      if (type === AdsType.Departement) {
+        id = parseInt(departement_id);
+      }
+      const ad: any = await new Ad({ ...createAdDto, departement_id: id });
       await ad.save({ transaction });
       if (file) {
         const filePath = onUploadFile("ad", ad._id, file, "ads", extensions);
@@ -58,8 +63,12 @@ export class AdsService {
     
     for (let i = 0; i < ads.length; i++) {
       const ad = ads[i]?.dataValues;
-      const departement:any = this.departementService.findOne(ad.departement_id);
-      new_ads.push({ ...ad, departement_name: departement.name })
+      if (ad.type === AdsType.Departement) {
+        const departement: any = this.departementService.findOne(ad.departement_id);
+        new_ads.push({ ...ad, departement_name: departement.name })
+      } else {
+        new_ads.push(ad)
+      }
     }
 
     return await this.adModel.findAll({ limit });
@@ -116,8 +125,8 @@ export class AdsService {
   }
 
   async remove(id: number) {
-    const filePath = (await this.findOne(id)).document_url;
-    if (filePath) fs.unlinkSync(filePath);
+    // const filePath = (await this.findOne(id)).document_url;
+    // if (filePath) fs.unlinkSync(filePath);
 
     return await this.adModel.destroy({ where: { _id: id } });
   }

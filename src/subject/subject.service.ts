@@ -21,8 +21,19 @@ export class SubjectService {
     return await this.subjectModel.create(createSubjectDto);
   }
 
-  async findAll(): Promise<Subject[]> {
-    return await this.subjectModel.findAll();
+  async findAll() {
+    const subjects = await this.subjectModel.findAll();
+    for (let i = 0; i < subjects.length; i++) {
+      const subject: any = subjects[i]?.dataValues;
+      const sub_major = await this.subMajorService.findOne(subject.sub_major_id);
+      const teacher = await this.teacherService.findOne(subject.teacher_id);
+
+      subject.sub_major_name = sub_major.name;
+      subject.level = sub_major.level;
+      subject.full_name_teacher = teacher.first_name + " " + teacher.last_name;
+    }
+
+    return subjects;
   }
 
   async findAllBySubMajor(id: number) {

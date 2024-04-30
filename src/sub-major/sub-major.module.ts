@@ -5,9 +5,10 @@ import { AuthModule } from 'src/auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SubMajor } from './entities/sub-major.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { DepartementModule } from 'src/departement/departement.module';
 
 @Module({
-  imports: [AuthModule, SequelizeModule.forFeature([SubMajor]), JwtModule],
+  imports: [DepartementModule, AuthModule, SequelizeModule.forFeature([SubMajor]), JwtModule],
   controllers: [SubMajorController],
   providers: [SubMajorService],
   exports: [SubMajorService],

@@ -16,13 +16,14 @@ export class ScheduleService {
 
   async create(createScheduleDto: CreateScheduleDto, file: Express.Multer.File): Promise<Schedule> {
     const { sub_major_id } = createScheduleDto
-    await this.subMajorService.findOne(sub_major_id);
+    await this.subMajorService.findOne(+sub_major_id);
     
     if(!file) {
       throw new BadRequestException('file not found');
     }
-
-    const schedule = new Schedule({ ...createScheduleDto });
+    
+    const smid = +createScheduleDto.sub_major_id
+    const schedule = new Schedule({ ...createScheduleDto,sub_major_id: smid });
     await schedule.save();
     
     const extensions = ['pdf', 'jpg', 'png', 'jpeg'];
@@ -64,7 +65,7 @@ export class ScheduleService {
     const filePath = (await this.findOne(id)).pdf_url;
     const { sub_major_id } = updateScheduleDto
     if (sub_major_id) {
-      await this.subMajorService.findOne(sub_major_id);
+      await this.subMajorService.findOne(+sub_major_id);
     }
     
     const data: any = { ...updateScheduleDto }

@@ -41,6 +41,13 @@ export class SubjectService {
     return submajors.$get('subjects');
   }
 
+  async findAllByTeacher(user_id: number) {
+    const teacher = await this.teacherService.findByUserId(user_id);
+    const subjects = await teacher.$get('subjects');
+    
+    return subjects;
+  }
+
   async findOne(id: number): Promise<Subject> {
     const subject = await this.subjectModel.findOne({ where: { _id: id } });
     if (!subject) {

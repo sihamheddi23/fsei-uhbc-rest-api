@@ -33,8 +33,17 @@ export class ScheduleService {
     return schedule;
   }
 
-  async findAll(): Promise<Schedule[]> {
-    return await this.scheduleModel.findAll();
+  async findAll() {
+    const schedules = await this.scheduleModel.findAll()
+    const new_schedules = [];
+
+    for (let i = 0; i < schedules.length; i++) {
+      const schedule = schedules[i]?.dataValues;
+      const sub_major = await this.subMajorService.findOne(schedule.sub_major_id);
+      new_schedules.push({ ...schedule, sub_major_name: sub_major.name, level: sub_major.level });
+    }
+
+    return new_schedules
   }
 
   async findAllBySubMajor(submajor_id: number) {
@@ -47,6 +56,7 @@ export class ScheduleService {
     if (!schedule) {
       throw new NotFoundException('schedule not found with this id '+ id);
     }
+
     return schedule;
   }
 

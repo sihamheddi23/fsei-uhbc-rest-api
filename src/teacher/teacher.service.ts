@@ -31,6 +31,16 @@ export class TeacherService {
     return data
   }
 
+  async findByUserId(id: number): Promise<Teacher> {
+    const teacher = await this.teacherModel.findOne({ where: { user_id: id } })
+    console.log(teacher);
+    if (!teacher) {
+      throw new NotFoundException('teacher not found with this id');
+    }
+
+    return teacher;
+  }
+
   async findOne(id: number): Promise<Teacher> {
     const teacher = await this.teacherModel.findOne({ where: { _id: id } })
     if (!teacher) {

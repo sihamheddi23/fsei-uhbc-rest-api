@@ -6,9 +6,10 @@ import { Course } from './entities/course.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { SubjectModule } from 'src/subject/subject.module';
+import { TeacherModule } from 'src/teacher/teacher.module';
 
 @Module({
-  imports: [SubjectModule, AuthModule, JwtModule, SequelizeModule.forFeature([Course])],
+  imports: [TeacherModule, SubjectModule, AuthModule, JwtModule, SequelizeModule.forFeature([Course])],
   controllers: [CourseController],
   providers: [CourseService],
 })

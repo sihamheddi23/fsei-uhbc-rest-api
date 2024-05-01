@@ -6,12 +6,14 @@ import { Course } from './entities/course.entity';
 import { SubjectService } from 'src/subject/subject.service';
 import * as fs from 'fs';
 import { onUploadFile } from 'src/utils/storage';
+import { TeacherService } from 'src/teacher/teacher.service';
 
 @Injectable()
 export class CourseService {
   constructor(
     @InjectModel(Course) private readonly courseModel: typeof Course,
-    private readonly subjectService: SubjectService
+    private readonly subjectService: SubjectService,
+    private readonly teacherService: TeacherService
   ) {}
   async create(createCourseDto: CreateCourseDto, file: Express.Multer.File): Promise<Course> {
     const { subject_id } = createCourseDto;
@@ -26,6 +28,22 @@ export class CourseService {
     await course.save();
     
     return course;
+  }
+
+  async findAllByTeacher(user_id: number) {
+    const teacher = await this.teacherService.findByUserId(user_id)
+    const subjects = await teacher.$get('subjects');
+
+    const courses = [];
+    for (let i = 0; i < subjects.length; i++) {
+      const subject = subjects[i];
+      const coursesBySubject: any = await this.findAll(subject._id);
+      if (coursesBySubject.dataValues) {
+        courses.push({...coursesBySubject.dataValues, subject_name: subject.name});
+      }
+    }
+
+    return courses
   }
 
   async findAll(subject_id: number): Promise<Course[]> {

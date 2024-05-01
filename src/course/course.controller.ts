@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   UseInterceptors,
   UploadedFile,
+  Req,
 } from '@nestjs/common';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -39,6 +40,13 @@ export class CourseController {
   @Get('/subject/:id')
   findAll(@Param('id') id: number) {
     return this.courseService.findAll(id);
+  }
+  
+  @Roles(Role.TEACHER)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/teacher')
+  findAllByTeacher(@Req() req) {
+    return this.courseService.findAllByTeacher(req.user._id);
   }
 
   @Get(':id')

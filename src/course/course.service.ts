@@ -32,14 +32,15 @@ export class CourseService {
 
   async findAllByTeacher(user_id: number) {
     const teacher = await this.teacherService.findByUserId(user_id)
-    const subjects = await teacher.$get('subjects');
-
+    const subjects: any = await teacher.$get('subjects');
+    
     const courses = [];
     for (let i = 0; i < subjects.length; i++) {
-      const subject = subjects[i];
+      const subject = subjects[i].dataValues;
       const coursesBySubject: any = await this.findAll(subject._id);
-      if (coursesBySubject.dataValues) {
-        courses.push({...coursesBySubject.dataValues, subject_name: subject.name});
+      for (let j = 0; j < coursesBySubject.length; j++) {
+        const course = coursesBySubject[j].dataValues;
+        courses.push({...course, subject_name: subject.name});
       }
     }
 
@@ -48,9 +49,10 @@ export class CourseService {
 
   async findAll(subject_id: number): Promise<Course[]> {
     await this.subjectService.findOne(subject_id);
-    return await this.courseModel.findAll({
+    const courses = await this.courseModel.findAll({
       where: { subject_id },
-    });
+    })
+    return courses;
   }
 
   async findOne(id: number): Promise<Course> {

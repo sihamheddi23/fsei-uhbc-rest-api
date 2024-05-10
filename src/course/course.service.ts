@@ -86,7 +86,7 @@ export class CourseService {
 
   async remove(id: number) {
     const filePath = (await this.findOne(id)).pdf_url;
-    if (filePath) fs.unlinkSync(filePath);
+    if(filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
     
     return await this.courseModel.destroy({ where: { _id: id } });
   }
